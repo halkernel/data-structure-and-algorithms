@@ -1,4 +1,4 @@
-# from node import Node
+from node import Node
 
 p_size =3
 iterations =0
