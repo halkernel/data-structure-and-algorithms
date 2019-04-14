@@ -1,4 +1,4 @@
-from node import Node
+# from node import Node
 
 p_size =3
 iterations =0
@@ -41,7 +41,7 @@ def move(node):
     if(z_index not in [0,3,6]):
         swap(t_node, z_index, z_index-1)
         if(tuple(t_node.state) not in visited):
-            to_visit.insert(0, t_node)
+            to_visit.append(t_node)
         else:
             visited.add(tuple(t_node.state))
 
@@ -50,7 +50,7 @@ def move(node):
     if(z_index not in [0,1,2]):
         swap(t_node, z_index, z_index-3)
         if(tuple(t_node.state) not in visited):
-            to_visit.insert(0, t_node)
+            to_visit.append(t_node)
         else:
             visited.add(tuple(t_node.state))
 
@@ -59,7 +59,7 @@ def move(node):
     if(z_index not in [2,5,8]):
         swap(t_node, z_index, z_index+1)
         if(tuple(t_node.state) not in visited):
-            to_visit.insert(0, t_node)
+            to_visit.append(t_node)
         else:
             visited.add(tuple(t_node.state))
 
@@ -68,12 +68,12 @@ def move(node):
     if(z_index not in [6,7,8]):
         swap(t_node, z_index, z_index+3)
         if(tuple(t_node.state) not in visited):
-            to_visit.insert(0, t_node)
+            to_visit.append(t_node)
         else:
             visited.add(tuple(t_node.state))
 
 
-def dfs(initial_state):
+def bfs(initial_state):
     global iterations, p_size, goal_node
     initial_node = Node(initial_state, 0)
 
@@ -91,4 +91,4 @@ def dfs(initial_state):
             visited.add(tuple(current_node.state))
             iterations += 1
 
-dfs([6,8,5,2,7,0,1,4,3])
+bfs([6,8,5,2,7,0,1,4,3])
