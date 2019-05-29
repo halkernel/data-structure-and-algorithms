@@ -2,7 +2,22 @@ from node import Node
 
 p_size =3
 iterations =0
-goal = [1,2,3,4,5,6,7,8,0]
+
+goal = [1,2,3,
+        4,5,6,
+        7,8,0]
+
+f_example_case = [6,8,5,
+                  2,7,0,
+                  1,4,3]
+
+s_example_case = [0,1,3,
+                  4,2,5,
+                  7,8,6]
+
+worst_case = [8,7,6,
+              5,4,3,
+              2,1,0]
 
 '''
 1[0],2[1],3[2] 
@@ -60,6 +75,11 @@ def hamming(state):
             dif +=1
     return dif
 
+def manhattan(state):
+    #TODO calculating manhattan distance
+    dis = 0
+    return dis
+
 #expand the states that suppose to be visited
 def move(node):
     hamming_value = 9
@@ -102,8 +122,7 @@ def move(node):
             visited.add(tuple(t_node.state))
 
     sorted_hamming = get_hamming_sorted_states(to_expand)
-    #TODO add elements in the beginning of to_visit
-
+    to_visit[1:1] = sorted_hamming
 
 
 
@@ -129,6 +148,4 @@ def a_star(initial_state):
             visited.add(tuple(current_node.state))
             iterations += 1
 
-a_star([6,8,5,
-     2,7,0,
-     1,4,3])
+a_star(f_example_case)
