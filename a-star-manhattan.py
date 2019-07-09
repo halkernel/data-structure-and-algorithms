@@ -19,6 +19,10 @@ worst_case = [8,7,6,
               5,4,3,
               2,1,0]
 
+hardest_case = [8,6,7,
+                2,5,4,
+                3,0,1]
+
 '''
 1[0],2[1],3[2] 
 4[3],5[4],6[5] 
@@ -153,4 +157,4 @@ def a_star(initial_state):
             visited.add(tuple(current_node.state))
             iterations += 1
 
-a_star(worst_case)
+a_star(hardest_case)
