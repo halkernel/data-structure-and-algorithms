@@ -96,4 +96,4 @@ def bfs(initial_state):
             visited.add(tuple(current_node.state))
             iterations += 1
 
-bfs(f_example_case)
+bfs(worst_case)

@@ -75,11 +75,6 @@ def hamming(state):
             dif +=1
     return dif
 
-def manhattan(state):
-    #TODO calculating manhattan distance
-    dis = 0
-    return dis
-
 #expand the states that suppose to be visited
 def move(node):
     hamming_value = 9
@@ -148,4 +143,4 @@ def a_star(initial_state):
             visited.add(tuple(current_node.state))
             iterations += 1
 
-a_star(f_example_case)
+a_star(worst_case)
