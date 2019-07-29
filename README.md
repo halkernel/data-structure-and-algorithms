@@ -1,7 +1,7 @@
 # Search Algorithms
 These are implementations of unformed and informed search strategies. 
 The pourpose is regarding understanding implementation and principles of 
-decision based on search STRATEGUES. It also can be useful to others for reference.
+decision based on search STRATEGIES. It also can be useful to others for reference.
 
 
 
