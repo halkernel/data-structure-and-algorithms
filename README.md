@@ -7,3 +7,9 @@ data structure abstraction and algorithms implementation. Feel free to contribut
 * depth-first-search
 * breadth-first-search
 * a* (using both hamming and manhattan as heuristic)
+
+### Sorting
+* bouble
+* insertion
+* selection
+
