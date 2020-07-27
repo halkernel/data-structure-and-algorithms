@@ -1,16 +1,9 @@
-# Search Algorithms
-These are implementations of unformed and informed search strategies. 
-The pourpose is regarding understanding implementation and principles of 
-decision based on search STRATEGIES. It also can be useful to others for reference.
+# Various Algorithms
+This repo contains some algorithms I implement in order to improve understanding and practice 
+data structure abstraction and algorithms implementation. Feel free to contribute or study it.
 
 
-
-### Problems
-At first, the problem approached will involve the 8-puzzle, 8 queens, 15 puzzle and so on. All of them are being implemented in python.
-
-### Search Strategies
-#### depth-first-search
-
-#### breadth-first-search
-#### A*
-
+#### Search Strategies
+* depth-first-search
+* breadth-first-search
+* a* (using both hamming and manhattan as heuristic)
