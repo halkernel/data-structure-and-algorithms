@@ -6,14 +6,9 @@
 #define ln printf("\n");
 #define psize 15
 
-typedef struct node{
-    int value;
-	struct node* left;
-	struct node* right;
-}NODE;
+
 
 NODE * head = NULL;
-
 
 
 void pre_print(NODE * current){
@@ -79,18 +74,36 @@ void add_node(char value, NODE * current){
 	}
 }	
 
-void breadth_first(NODE * current){
-    printf("%d -> ", (*current).value);  
-    if((*current).left != NULL){
-        breadth_first((*current).left);
+void breadth_first(){
+    
+    NODE * tmp = head;
+    
+    if(tmp != NULL){
+        enqueue(tmp);
+        while(!isQueueEmpty()){
+            tmp = (*dequeue()).node;
+            printf("%d -> ", (*tmp).value);        
+            if((*tmp).left != NULL){
+                enqueue((*tmp).left);
+            }
+            else{
+                printf("|%d -> esquerda nula", (*tmp).value);                
+            }
+            if((*tmp).right != NULL){
+                enqueue((*tmp).right);         
+            }
+            else{
+                printf("|%d -> direita nula", (*tmp).value);                
+            }
+        }
     }
-    if((*current).right != NULL){
-        breadth_first((*current).right);
-    }
+    
+    
 }
 
 
 NODE * search(NODE * current, char value){
+    
     if((*current).value == value){
         return current;
     }
@@ -119,7 +132,8 @@ int main(){
     ln
     post_print(head);
     ln    
-	
+    breadth_first();
+	ln
 	
 	return 0;
 }

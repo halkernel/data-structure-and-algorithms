@@ -3,22 +3,32 @@
 
 #define ln printf("\n");
   
+
+typedef struct node{
+    int value;
+	struct node* left;
+	struct node* right;
+}NODE;
+
+
 typedef struct queue_node { 
-    int value; 
+    NODE * node; 
     struct queue_node * next; 
 }QUEUE_NODE; 
+
+
 
 QUEUE_NODE * queue = NULL;  
 QUEUE_NODE * rear = NULL;
 
-QUEUE_NODE * create(int value){
+QUEUE_NODE * create(NODE * value){
   QUEUE_NODE * tmp = (QUEUE_NODE * ) malloc (sizeof ( QUEUE_NODE ) );
-  (*tmp).value = value;
+  (*tmp).node = value;
   (*tmp).next = NULL;
   return tmp;
 }
 
-int isEmpty(){
+int isQueueEmpty(){
     if(queue == NULL){
         return 1;
     }    
@@ -26,21 +36,21 @@ int isEmpty(){
 }
 
 QUEUE_NODE * dequeue(){
-    if(isEmpty()){
+    if(isQueueEmpty()){
         printf("The stack is Empty");
         return NULL;
     }
     
     QUEUE_NODE * tmp = queue;
     
-    if((*rear).value == (*queue).value){        
+    if((*(*rear).node).value == (*(*rear).node).value){        
         queue = NULL;
         rear = NULL;
         return tmp;
     }
         
     QUEUE_NODE * prev = tmp = queue;
-    while((*tmp).value != (*rear).value){
+    while((*(*tmp).node).value != (*(*rear).node).value){
         prev = tmp;
         tmp = (*tmp).next;
     }
@@ -52,17 +62,17 @@ QUEUE_NODE * dequeue(){
 
 
 int firstEl(){
-    printf("Top -> %d", (*rear).value);
-    return (*rear).value;
+    printf("Top -> %d", (*(*rear).node).value);
+    return (*(*rear).node).value;
 }
 
-void enqueue(int value){
-    if(isEmpty()){
-        queue = create(value);
+void enqueue(NODE * node){
+    if(isQueueEmpty()){
+        queue = create(node);
         rear = queue;
         return;
     }
-    QUEUE_NODE * tmp = create(value);    
+    QUEUE_NODE * tmp = create(node);    
     (*tmp).next = queue;
     queue = tmp;
 }
@@ -73,7 +83,7 @@ void show_queue(){
     printf("queue -> ");
     
     while(tmp != NULL){
-        printf("%d ", (*tmp).value);        
+        printf("%d ", (*(*tmp).node).value);        
         tmp = (*tmp).next;        
     }
     
