@@ -16,5 +16,7 @@ data structure abstraction and algorithms implementation. Feel free to contribut
 #### Data Structure
 * linked-list
 * stack
-* tree
+* queue
+* bst
+
 
