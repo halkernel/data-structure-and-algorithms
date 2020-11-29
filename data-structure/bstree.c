@@ -47,7 +47,7 @@ void post_print(NODE * current){
 
 NODE * create_node(char value){
 	NODE * leaf = (NODE *) malloc(sizeof (NODE));
-	(*leaf).value = value;
+	(*leaf).value = value;    
 	return leaf;
 }
 
@@ -74,30 +74,28 @@ void add_node(char value, NODE * current){
 	}
 }	
 
+//25, 15, 50
+
+//queue> 15, 50  <rear
+
 void breadth_first(){
     
     NODE * tmp = head;
     
     if(tmp != NULL){
-        enqueue(tmp);
+        enqueue(head);
         while(!isQueueEmpty()){
-            tmp = (*dequeue()).node;
-            printf("%d -> ", (*tmp).value);        
+						tmp = (*dequeue()).node;
+            printf("%d -> ", (*tmp).value);  					      
             if((*tmp).left != NULL){
                 enqueue((*tmp).left);
-            }
-            else{
-                printf("|%d -> esquerda nula", (*tmp).value);                
             }
             if((*tmp).right != NULL){
                 enqueue((*tmp).right);         
             }
-            else{
-                printf("|%d -> direita nula", (*tmp).value);                
-            }
+
         }
     }
-    
     
 }
 
@@ -117,23 +115,19 @@ NODE * search(NODE * current, char value){
 
 
 int main(){
-	int inp;
+	  
 	int i;
-    
-	
-	for(i=0; i < psize; i++){
-        scanf("%d", &inp);
-		add_node(inp, head);
+	int val;
+
+	for(i = 0; i < psize; i++ ){
+		scanf("%d", &val);
+		add_node(val, head);
 	}
-	
-	in_print(head);
-	ln
-	pre_print(head);
-    ln
-    post_print(head);
-    ln    
-    breadth_first();
-	ln
+
+	pre_print(head); ln
+	in_print(head); ln
+	post_print(head); ln
+	breadth_first(); ln
 	
 	return 0;
 }

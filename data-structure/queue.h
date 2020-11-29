@@ -2,7 +2,7 @@
 #include <stdlib.h> 
 
 #define ln printf("\n");
-  
+
 
 typedef struct node{
     int value;
@@ -16,10 +16,9 @@ typedef struct queue_node {
     struct queue_node * next; 
 }QUEUE_NODE; 
 
-
-
-QUEUE_NODE * queue = NULL;  
+QUEUE_NODE * queue = NULL;
 QUEUE_NODE * rear = NULL;
+  
 
 QUEUE_NODE * create(NODE * value){
   QUEUE_NODE * tmp = (QUEUE_NODE * ) malloc (sizeof ( QUEUE_NODE ) );
@@ -28,10 +27,10 @@ QUEUE_NODE * create(NODE * value){
   return tmp;
 }
 
-int isQueueEmpty(){
-    if(queue == NULL){
+int isQueueEmpty(){    
+    if(queue == NULL){        
         return 1;
-    }    
+    }            
     return 0;
 }
 
@@ -43,7 +42,7 @@ QUEUE_NODE * dequeue(){
     
     QUEUE_NODE * tmp = queue;
     
-    if((*(*rear).node).value == (*(*rear).node).value){        
+    if((*(*rear).node).value == (*(*queue).node).value){        
         queue = NULL;
         rear = NULL;
         return tmp;
