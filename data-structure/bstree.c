@@ -74,9 +74,58 @@ void add_node(char value, NODE * current){
 	}
 }	
 
-//25, 15, 50
 
-//queue> 15, 50  <rear
+void delete_by_merge(NODE * current, NODE * previous){
+	//deleting the node when there is no leaf
+	if((*current).left == NULL && (*current).right == NULL){		
+		  //check if the node that will be deleted is the left one
+			if((*(*previous).left).value == (*current).value){				   
+					(*previous).left = NULL;
+					return;
+			}
+			//otherwise is the right one
+			else{
+					(*previous).right = NULL;
+					return;
+			}		
+	}
+
+	//deleting the node when there is at least one leaf 
+	if((*current).left != NULL && (*current).right == NULL){
+		//do the thing
+	}
+	else if((*current).left == NULL && (*current).right != NULL){
+		//do the thing
+	}
+	printf("deleting");
+	/*
+
+  ->find in the left subtree the node with that have the greater key 
+	->make this node the parent of the right subtree
+	-> symmetrically, the node with the lowest key can 
+	found in the right subtree can be	made a parent in the left subtree.
+
+	*/
+}
+
+void find_and_delete_by_merge(NODE * current, NODE * previous, int value){
+	if((*current).value == value){
+		delete_by_merge(current, previous);
+	}	
+	NODE * tmp = current;
+	if((*tmp).left != NULL){
+		find_and_delete_by_merge((*tmp).left, tmp, value);
+	}
+	if((*tmp).right != NULL){
+		find_and_delete_by_merge((*tmp).right, tmp, value);
+	}	
+}
+
+
+void delete_by_copy(NODE * node, NODE * previous){
+
+}
+
 
 void breadth_first(){
     
@@ -100,7 +149,7 @@ void breadth_first(){
 }
 
 
-NODE * search(NODE * current, char value){
+NODE * search(NODE * current, int value){
     
     if((*current).value == value){
         return current;
@@ -119,7 +168,7 @@ int main(){
 	int i;
 	int val;
 
-	for(i = 0; i < psize; i++ ){
+	for(i = 0; i < 3; i++ ){
 		scanf("%d", &val);
 		add_node(val, head);
 	}
@@ -128,6 +177,8 @@ int main(){
 	in_print(head); ln
 	post_print(head); ln
 	breadth_first(); ln
+	find_and_delete_by_merge(head, NULL,  20); ln
+	breadth_first(); ln
 	
 	return 0;
 }
@@ -135,4 +186,5 @@ int main(){
 //input: 
 /* 
  25 15 50 10 22 35 70 4 12 18 24 31 44 66 90  
+  15 4 20 17 19
 */
