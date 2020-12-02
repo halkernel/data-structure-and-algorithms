@@ -10,6 +10,9 @@
 
 NODE * head = NULL;
 
+typedef enum {false, true} bool;
+
+
 
 void pre_print(NODE * current){
 	NODE * tmp = current;
@@ -74,10 +77,15 @@ void add_node(char value, NODE * current){
 	}
 }	
 
+bool are_children_null(NODE * current){
+	return (*current).left == NULL && (*current).right == NULL ? true : false;
+}
+
+
 
 void delete_by_merge(NODE * current, NODE * previous){
 	//deleting the node when there is no leaf
-	if((*current).left == NULL && (*current).right == NULL){		
+	if(are_children_null(current)){		
 		  //check if the node that will be deleted is the left one
 			if((*(*previous).left).value == (*current).value){				   
 					(*previous).left = NULL;
@@ -90,12 +98,28 @@ void delete_by_merge(NODE * current, NODE * previous){
 			}		
 	}
 
+	/*
+			 _____15_______
+		4				    _____20	
+				  		17
+						     19 
+	*/
 	//deleting the node when there is at least one leaf 
+	//TODO do the right subtree also
 	if((*current).left != NULL && (*current).right == NULL){
-		//do the thing
+		if(are_children_null((*current).left)){
+				if((*(*previous).left).value == (*current).value){					
+					(*previous).left = (*current).left;
+				}
+				// else if((*(*previous).left).value == (*current).value){
+				// 	(*previous).left = (*current).right;
+				// }
+		}
 	}
 	else if((*current).left == NULL && (*current).right != NULL){
-		//do the thing
+		if(are_children_null((*current).right)){
+			printf("children on right null");
+		}
 	}
 	printf("deleting");
 	/*
@@ -168,16 +192,16 @@ int main(){
 	int i;
 	int val;
 
-	for(i = 0; i < 3; i++ ){
+	for(i = 0; i < 5; i++ ){
 		scanf("%d", &val);
 		add_node(val, head);
 	}
 
-	pre_print(head); ln
-	in_print(head); ln
-	post_print(head); ln
+	// pre_print(head); ln
+	// in_print(head); ln
+	// post_print(head); ln
 	breadth_first(); ln
-	find_and_delete_by_merge(head, NULL,  20); ln
+	find_and_delete_by_merge(head, NULL,  17); ln
 	breadth_first(); ln
 	
 	return 0;
@@ -187,4 +211,10 @@ int main(){
 /* 
  25 15 50 10 22 35 70 4 12 18 24 31 44 66 90  
   15 4 20 17 19
+*/
+
+/*
+
+
+
 */
