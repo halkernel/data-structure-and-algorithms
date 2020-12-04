@@ -77,59 +77,66 @@ void add_node(char value, NODE * current){
 	}
 }	
 
-bool are_children_null(NODE * current){
+bool are_children_null(NODE * current){	
 	return (*current).left == NULL && (*current).right == NULL ? true : false;
 }
 
 
 
+
+
+void remove_node_with_one_orphan(NODE * current, NODE * children, NODE * previous){
+	if(are_children_null(children)){
+		if((*(*previous).left).value == (*current).value){					
+			(*previous).left = children;
+		}
+		else if((*(*previous).right).value == (*current).value){
+			(*previous).right = children;
+		}
+	}
+}
+
 void delete_by_merge(NODE * current, NODE * previous){
 	//deleting the node when there is no leaf
 	if(are_children_null(current)){		
-		  //check if the node that will be deleted is the left one
-			if((*(*previous).left).value == (*current).value){				   
-					(*previous).left = NULL;
-					return;
-			}
-			//otherwise is the right one
-			else{
-					(*previous).right = NULL;
-					return;
-			}		
+		//check if the node that will be deleted is the left one
+		if((*(*previous).left).value == (*current).value){				   
+				(*previous).left = NULL;
+				return;
+		}
+		//otherwise is the right one
+		else{
+				(*previous).right = NULL;
+				return;
+		}		
 	}
 
-	/*
-			 _____15_______
-		4				    _____20	
-				  		17
-						     19 
-	*/
 	//deleting the node when there is at least one leaf 
 	//TODO do the right subtree also
-	if((*current).left != NULL && (*current).right == NULL){
-		if(are_children_null((*current).left)){
-				if((*(*previous).left).value == (*current).value){					
-					(*previous).left = (*current).left;
-				}
-				// else if((*(*previous).left).value == (*current).value){
-				// 	(*previous).left = (*current).right;
-				// }
+	if((*(*previous).left).value == (*current).value){					
+		if((*current).left != NULL && (*current).right == NULL){				
+				remove_node_with_one_orphan(current, (*current).left, previous);
 		}
-	}
-	else if((*current).left == NULL && (*current).right != NULL){
-		if(are_children_null((*current).right)){
-			printf("children on right null");
+		if((*current).left == NULL && (*current).right != NULL){					
+				remove_node_with_one_orphan(current, (*current).right, previous);
 		}
-	}
-	printf("deleting");
-	/*
+	}		
+	else if ((*(*previous).right).value == (*current).value){				
+	 	if((*current).left != NULL && (*current).right == NULL){			
+	 			remove_node_with_one_orphan(current, (*current).left, previous);
+	 	}
+		if((*current).right != NULL && (*current).left == NULL){			
+				remove_node_with_one_orphan(current, (*current).right, previous);
+		}
+	} 	
 
-  ->find in the left subtree the node with that have the greater key 
-	->make this node the parent of the right subtree
-	-> symmetrically, the node with the lowest key can 
-	found in the right subtree can be	made a parent in the left subtree.
-
+	/* 
+		find in the left subtree the node with that have the greater key 
+		make this node the parent of the right subtree symmetrically, 
+		the node with the lowest key can found in the right subtree 
+		can be	made a parent in the left subtree.
 	*/
+
 }
 
 void find_and_delete_by_merge(NODE * current, NODE * previous, int value){
@@ -153,22 +160,21 @@ void delete_by_copy(NODE * node, NODE * previous){
 
 void breadth_first(){
     
-    NODE * tmp = head;
-    
-    if(tmp != NULL){
-        enqueue(head);
-        while(!isQueueEmpty()){
-						tmp = (*dequeue()).node;
-            printf("%d -> ", (*tmp).value);  					      
-            if((*tmp).left != NULL){
-                enqueue((*tmp).left);
-            }
-            if((*tmp).right != NULL){
-                enqueue((*tmp).right);         
-            }
-
-        }
-    }
+	NODE * tmp = head;
+	
+	if(tmp != NULL){
+		enqueue(head);
+		while(!isQueueEmpty()){
+			tmp = (*dequeue()).node;
+			printf("%d -> ", (*tmp).value);  					      
+			if((*tmp).left != NULL){
+					enqueue((*tmp).left);
+			}
+			if((*tmp).right != NULL){
+					enqueue((*tmp).right);         
+			}
+		}
+	}
     
 }
 
@@ -192,7 +198,7 @@ int main(){
 	int i;
 	int val;
 
-	for(i = 0; i < 5; i++ ){
+	for(i = 0; i < 6; i++ ){
 		scanf("%d", &val);
 		add_node(val, head);
 	}
@@ -201,7 +207,7 @@ int main(){
 	// in_print(head); ln
 	// post_print(head); ln
 	breadth_first(); ln
-	find_and_delete_by_merge(head, NULL,  17); ln
+	find_and_delete_by_merge(head, NULL, 24); ln
 	breadth_first(); ln
 	
 	return 0;
