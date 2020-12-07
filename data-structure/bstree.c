@@ -12,6 +12,67 @@ NODE * head = NULL;
 
 typedef enum {false, true} bool;
 
+void find_and_delete_by_merge(NODE * current, NODE * previous, int value);
+NODE * delete_previous(NODE * current, NODE * previous, int value);
+void remove_node_with_one_orphan(NODE * current, NODE * children, NODE * previous);
+
+void pre_print(NODE * current);
+void in_print(NODE * current);
+void post_print(NODE * current);
+
+NODE * create_node(char value);
+void add_node(char value, NODE * current);
+
+bool are_children_null(NODE * current);	
+NODE * find_rightmost(NODE * current);
+
+void delete_by_merge(NODE * current, NODE * previous);
+
+void breadth_first();
+
+NODE * search(NODE * current, int value);
+
+
+
+
+
+
+
+
+
+
+int main(){
+	  
+	int i;
+	int val;
+
+	for(i = 0; i < 15; i++ ){
+		scanf("%d", &val);
+		add_node(val, head);
+	}
+
+	// pre_print(head); ln
+	// in_print(head); ln
+	// breadth_first(); ln
+  breadth_first(); ln
+	find_and_delete_by_merge(head, NULL, 50);
+	breadth_first(); ln
+	//find_and_delete_by_merge(head, NULL, 12);
+	//breadth_first(); ln
+	
+	return 0;
+}
+
+//input: 
+/* 
+ 25 15 50 10 22 35 70 4 12 18 24 31 44 66 90  
+  15 4 20 17 19
+*/
+
+
+
+
+
 
 
 void pre_print(NODE * current){
@@ -24,7 +85,6 @@ void pre_print(NODE * current){
 		pre_print((*tmp).right);
 	}
 } 
-
 
 void in_print(NODE * current){
 	NODE * tmp = current;
@@ -48,10 +108,38 @@ void post_print(NODE * current){
 	printf("%d -> ", (*tmp).value);
 } 
 
+
 NODE * create_node(char value){
 	NODE * leaf = (NODE *) malloc(sizeof (NODE));
 	(*leaf).value = value;    
 	return leaf;
+}
+
+
+void find_and_delete_by_merge(NODE * current, NODE * previous, int value){
+	if((*current).value == value){		
+		delete_by_merge(current, previous);
+	}	
+	NODE * tmp = current;
+	if((*tmp).left != NULL){
+		find_and_delete_by_merge((*tmp).left, tmp, value);
+	}
+	if((*tmp).right != NULL){
+		find_and_delete_by_merge((*tmp).right, tmp, value);
+	}	
+}
+
+NODE * delete_previous(NODE * current, NODE * previous, int value){				
+    if((*current).value == value){				
+      delete_by_merge(current, previous); 			
+    }		
+    if ((*current).left != NULL){			
+        delete_previous((*current).left, current, value);
+    }
+    if((*current).right != NULL){
+        delete_previous((*current).right, current, value);
+    }       
+		
 }
 
 void add_node(char value, NODE * current){
@@ -77,11 +165,6 @@ void add_node(char value, NODE * current){
 	}
 }	
 
-bool are_children_null(NODE * current){	
-	return (*current).left == NULL && (*current).right == NULL ? true : false;
-}
-
-
 
 
 
@@ -96,67 +179,17 @@ void remove_node_with_one_orphan(NODE * current, NODE * children, NODE * previou
 	}
 }
 
-void delete_by_merge(NODE * current, NODE * previous){
-	//deleting the node when there is no leaf
-	if(are_children_null(current)){		
-		//check if the node that will be deleted is the left one
-		if((*(*previous).left).value == (*current).value){				   
-				(*previous).left = NULL;
-				return;
-		}
-		//otherwise is the right one
-		else{
-				(*previous).right = NULL;
-				return;
-		}		
-	}
 
-	//deleting the node when there is at least one leaf 
-	//TODO do the right subtree also
-	if((*(*previous).left).value == (*current).value){					
-		if((*current).left != NULL && (*current).right == NULL){				
-				remove_node_with_one_orphan(current, (*current).left, previous);
-		}
-		if((*current).left == NULL && (*current).right != NULL){					
-				remove_node_with_one_orphan(current, (*current).right, previous);
-		}
-	}		
-	else if ((*(*previous).right).value == (*current).value){				
-	 	if((*current).left != NULL && (*current).right == NULL){			
-	 			remove_node_with_one_orphan(current, (*current).left, previous);
-	 	}
-		if((*current).right != NULL && (*current).left == NULL){			
-				remove_node_with_one_orphan(current, (*current).right, previous);
-		}
-	} 	
-
-	/* 
-		find in the left subtree the node with that have the greater key 
-		make this node the parent of the right subtree symmetrically, 
-		the node with the lowest key can found in the right subtree 
-		can be	made a parent in the left subtree.
-	*/
-
+bool are_children_null(NODE * current){	
+	return (*current).left == NULL && (*current).right == NULL ? true : false;
 }
 
-void find_and_delete_by_merge(NODE * current, NODE * previous, int value){
-	if((*current).value == value){
-		delete_by_merge(current, previous);
+NODE * find_rightmost(NODE * current){
+	while((*current).right != NULL){
+		 current = (*current).right;
 	}	
-	NODE * tmp = current;
-	if((*tmp).left != NULL){
-		find_and_delete_by_merge((*tmp).left, tmp, value);
-	}
-	if((*tmp).right != NULL){
-		find_and_delete_by_merge((*tmp).right, tmp, value);
-	}	
+	return current;
 }
-
-
-void delete_by_copy(NODE * node, NODE * previous){
-
-}
-
 
 void breadth_first(){
     
@@ -178,6 +211,71 @@ void breadth_first(){
     
 }
 
+void delete_by_merge(NODE * current, NODE * previous){
+	//deleting the node when there is no leaf
+	if(are_children_null(current)){		
+		//check if the node that will be deleted is the left one
+		if((*(*previous).left).value == (*current).value){				   
+				(*previous).left = NULL;
+				return;
+		}
+		//otherwise is the right one
+		else{
+				(*previous).right = NULL;
+				return;
+		}		
+	}
+
+	//deleting the node when there is at least one leaf 	
+	if((*(*previous).left).value == (*current).value){					
+		if((*current).left != NULL && (*current).right == NULL){				
+				remove_node_with_one_orphan(current, (*current).left, previous);
+				return;
+		}
+		if((*current).left == NULL && (*current).right != NULL){					
+				remove_node_with_one_orphan(current, (*current).right, previous);
+				return;
+		}
+	}		
+	else if ((*(*previous).right).value == (*current).value){				
+	 	if((*current).left != NULL && (*current).right == NULL){			
+	 			remove_node_with_one_orphan(current, (*current).left, previous);
+				return;
+	 	}
+		if((*current).right != NULL && (*current).left == NULL){			
+				remove_node_with_one_orphan(current, (*current).right, previous);
+				return;
+		}		
+	} 	
+
+	/* 
+		find in the left subtree the node with that have the greater key 
+		make this node the parent of the right subtree symmetrically, 
+		the node with the lowest key can found in the right subtree 
+		can be	made a parent in the left subtree.
+	*/
+	
+	if((*(*previous).left).value == (*current).value){		
+		if((*current).left != NULL){		
+			NODE * rightmost = find_rightmost((*current).left);
+			(*current).value = (*rightmost).value;			
+			NODE * previous = delete_previous(head, NULL, (*rightmost).value);							
+		  return;
+		}				
+	}
+
+	if((*(*previous).right).value == (*current).value){
+		if((*current).right != NULL){
+			NODE * rightmost = find_rightmost((*current).left);
+			(*current).value = (*rightmost).value;
+			NODE * previous = delete_previous(head, NULL, (*rightmost).value);							
+			printf("previ %d", (*previous).value );		
+			printf("right %d", (*rightmost).value );		
+			delete_by_merge(rightmost, previous); 			
+			return;
+		}				
+	}
+}
 
 NODE * search(NODE * current, int value){
     
@@ -193,34 +291,7 @@ NODE * search(NODE * current, int value){
 }
 
 
-int main(){
-	  
-	int i;
-	int val;
-
-	for(i = 0; i < 6; i++ ){
-		scanf("%d", &val);
-		add_node(val, head);
-	}
-
-	// pre_print(head); ln
-	// in_print(head); ln
-	// post_print(head); ln
-	breadth_first(); ln
-	find_and_delete_by_merge(head, NULL, 24); ln
-	breadth_first(); ln
-	
-	return 0;
-}
-
-//input: 
-/* 
- 25 15 50 10 22 35 70 4 12 18 24 31 44 66 90  
-  15 4 20 17 19
-*/
-
-/*
 
 
 
-*/
+
