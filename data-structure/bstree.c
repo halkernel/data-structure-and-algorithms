@@ -31,7 +31,7 @@ void delete_by_merge(NODE * current, NODE * previous);
 void breadth_first();
 
 NODE * search(NODE * current, int value);
-
+void * remove_node(NODE * current);
 
 
 
@@ -55,10 +55,8 @@ int main(){
 	// in_print(head); ln
 	// breadth_first(); ln
   breadth_first(); ln
-	find_and_delete_by_merge(head, NULL, 50);
+	find_and_delete_by_merge(head, NULL, 25);
 	breadth_first(); ln
-	//find_and_delete_by_merge(head, NULL, 12);
-	//breadth_first(); ln
 	
 	return 0;
 }
@@ -115,8 +113,24 @@ NODE * create_node(char value){
 	return leaf;
 }
 
+void * remove_node(NODE * current){
+	NODE * rightmost = find_rightmost((*current).left);
+	int tmp = (*rightmost).value;
+	(*current).value = (*rightmost).value;
+	find_and_delete_by_merge((*current).left, current, tmp);
+}
+
 
 void find_and_delete_by_merge(NODE * current, NODE * previous, int value){
+	
+	if((*head).value == value){
+		NODE * rightmost = find_rightmost((*current).left);
+		int tmp = (*rightmost).value;
+		(*current).value = (*rightmost).value;
+	  find_and_delete_by_merge((*current).left, current, tmp);
+		return;
+	}
+
 	if((*current).value == value){		
 		delete_by_merge(current, previous);
 	}	
@@ -255,26 +269,23 @@ void delete_by_merge(NODE * current, NODE * previous){
 		can be	made a parent in the left subtree.
 	*/
 	
+
+	//TODO improve logic and create a method to not duplicate code on here
 	if((*(*previous).left).value == (*current).value){		
 		if((*current).left != NULL){		
-			NODE * rightmost = find_rightmost((*current).left);
-			(*current).value = (*rightmost).value;			
-			NODE * previous = delete_previous(head, NULL, (*rightmost).value);							
+			remove_node(current);
 		  return;
 		}				
 	}
 
 	if((*(*previous).right).value == (*current).value){
 		if((*current).right != NULL){
-			NODE * rightmost = find_rightmost((*current).left);
-			(*current).value = (*rightmost).value;
-			NODE * previous = delete_previous(head, NULL, (*rightmost).value);							
-			printf("previ %d", (*previous).value );		
-			printf("right %d", (*rightmost).value );		
-			delete_by_merge(rightmost, previous); 			
+			remove_node(current);
 			return;
 		}				
 	}
+
+
 }
 
 NODE * search(NODE * current, int value){
