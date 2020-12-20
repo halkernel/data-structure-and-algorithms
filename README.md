@@ -1,6 +1,7 @@
+![License: MIT](https://img.shields.io/badge/license-MIT-green)
+
 # Various Algorithms
-This repo contains some algorithms I implement in order to improve understanding and practice 
-data structure abstraction and algorithms implementation. Feel free to contribute or study it.
+Data structures and algorithms are required for being an great programmer. Besides that, it is fundamental for building efficient code. This repo contains some algorithms I implement by myself in order to improve understanding and practice data structure abstraction. 
 
 
 #### Search Strategies
@@ -17,6 +18,6 @@ data structure abstraction and algorithms implementation. Feel free to contribut
 * linked-list
 * stack
 * queue
-* bst
+* binary-search-tree
 
 
