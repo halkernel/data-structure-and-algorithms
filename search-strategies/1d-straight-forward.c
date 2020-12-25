@@ -29,12 +29,12 @@ int * create_arr(){
 void find_peak(int arr[]){
     int i = 0;
     for(i = 0; i < n; i++){
-        if(i == 0 && arr[i] > arr[i+1]){
+        if(i == 0 && arr[i] >= arr[i+1]){
             printf("%d is a Peak\n",  arr[i]);
-        }else if(i == n-1 && arr[i] > arr[i-1]){
+        }else if(i == n-1 && arr[i] >= arr[i-1]){
             printf("%d is a Peak\n",  arr[i]);
         }
-        else if(arr[i] > arr[i+1] && arr[i] > arr[i-1]){        
+        else if(arr[i] >= arr[i+1] && arr[i] >= arr[i-1]){        
             printf("%d is a Peak\n", arr[i]);
         }        
     }
