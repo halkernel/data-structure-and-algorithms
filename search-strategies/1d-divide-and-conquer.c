@@ -31,15 +31,11 @@ void find_peak_dc(int arr[], int beg, int end){
     if(arr[mid] < arr[mid+1]){
         find_peak_dc(arr, mid+1, end);
     }
-    
-    
 }
-
-
 
 int * create_arr(){
     int i; 
-    static int arr[10];  
+    static int arr[n];  
     for(i = 0; i < n; i++)
         arr[i]=rand()%100;       
     for(i = 0; i < n; i++){
@@ -49,7 +45,6 @@ int * create_arr(){
     return arr;
 }
  
-
 int main(){
     srand ( time(NULL) );
     int * arr = create_arr();

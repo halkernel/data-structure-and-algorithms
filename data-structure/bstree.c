@@ -20,8 +20,8 @@ void pre_print(NODE * current);
 void in_print(NODE * current);
 void post_print(NODE * current);
 
-NODE * create_node(char value);
-void add_node(char value, NODE * current);
+NODE * create_node(int value);
+void add_node(int value, NODE * current);
 
 bool are_children_null(NODE * current);	
 NODE * find_rightmost(NODE * current);
@@ -107,7 +107,7 @@ void post_print(NODE * current){
 } 
 
 
-NODE * create_node(char value){
+NODE * create_node(int value){
 	NODE * leaf = (NODE *) malloc(sizeof (NODE));
 	(*leaf).value = value;    
 	return leaf;
@@ -156,7 +156,7 @@ NODE * delete_previous(NODE * current, NODE * previous, int value){
 		
 }
 
-void add_node(char value, NODE * current){
+void add_node(int value, NODE * current){
 	NODE * tmp = current;
 
 	if(current == NULL){

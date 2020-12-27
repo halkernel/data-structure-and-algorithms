@@ -16,7 +16,7 @@
 
 int * create_arr(){
     int i; 
-    static int arr[10];  
+    static int arr[n];  
     for(i = 0; i < n; i++)
         arr[i]=rand()%100;       
     for(i = 0; i < n; i++){
@@ -39,7 +39,6 @@ void find_peak(int arr[]){
         }        
     }
 }
-  
 
 int main(){                     
     int * arr = create_arr();
