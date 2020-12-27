@@ -7,6 +7,19 @@
 
 static const int IMBALANCE = 1;
 
+
+// **************** operations *******************
+// void insert(n)         --> insert node n
+// void remove(n)         --> removes node n
+// bool contains(n)       --> returns true if n exsits                //TODO
+// NODE findMin()         --> returns the smallest node
+// NODE findMax()         --> returns the largest node
+// bool isEmpty()         --> returns true if there is no root node   //TODO
+// void deleteTree()      --> delete all nodes                        //TODO 
+// void printTree()       --> print tree                              
+// ******************ERRORS********************************
+
+
 typedef struct node{
   int val;
   struct node * left;
@@ -17,6 +30,7 @@ typedef struct node{
 NODE * head = NULL;
 typedef enum {false, true} bool;
 
+int max(int a, int b) { return a > b ? a : b; }
 
 int height(NODE * l){
   return l == NULL ? -1 : (*l).val;
@@ -31,6 +45,16 @@ NODE * create(int value){
   return tmp;
 }
 
+
+void rotate_with_right_child(NODE * node){
+  NODE * left_of_node = (*node).right;
+  (*node).right = (*left_of_node).left;
+  (*left_of_node).left = node;
+  (*node).height = max(height((*node).left), height((*node).right)) + 1;
+  (*left_of_node).height = max(height((*left_of_node).right),(*node).height) + 1;
+  node = left_of_node;
+}
+
 void rotate_with_left_child(NODE * node){
   NODE * left_of_node = (*node).left;
   (*node).left = (*left_of_node).right;
@@ -39,6 +63,18 @@ void rotate_with_left_child(NODE * node){
   (*left_of_node).height = max(height((*left_of_node).left),(*node).height) + 1;
   node = left_of_node;
 }
+
+void double_with_left_child(NODE * node){
+  rotate_with_right_child((*node).left);
+  rotate_with_left_child(node);
+}
+
+void double_with_right_child(NODE * node){
+  rotate_with_left_child((*node).right);
+  rotate_with_right_child(node);
+}
+
+
 
 void balance(NODE * node){
   
@@ -51,16 +87,16 @@ void balance(NODE * node){
         rotate_with_left_child(node);
       }
       else{
-        //double_with_left_child
+        double_with_left_child(node);
       }
   }
 
   else if (height((*node).right) - height((*node).left) > IMBALANCE){
         if( height((*(*node).right).right) >= height((*(*node).right).left)){
-          //rotate_with_right_child
+          rotate_with_right_child(node);
         }
         else{
-          //double_with_right_child
+          double_with_right_child(node);
         }
   }
 
