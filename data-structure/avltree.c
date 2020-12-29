@@ -33,7 +33,7 @@ typedef enum {false, true} bool;
 int max(int a, int b) { return a > b ? a : b; }
 
 int height(NODE * l){
-  return l == NULL ? -1 : (*l).val;
+  return l == NULL ? -1 : (*l).height;
 }
 
 NODE * create(int value){
@@ -41,27 +41,27 @@ NODE * create(int value){
   (*tmp).val = value;
   (*tmp).left = NULL;
   (*tmp).right = NULL;
-
+  (*tmp).height = 0;
   return tmp;
 }
 
 
 void rotate_with_right_child(NODE * node){
-  NODE * left_of_node = (*node).right;
-  (*node).right = (*left_of_node).left;
-  (*left_of_node).left = node;
+  NODE * right_child = (*node).right;
+  (*node).right = (*right_child).left;
+  (*right_child).left = node;
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
-  (*left_of_node).height = max(height((*left_of_node).right),(*node).height) + 1;
-  node = left_of_node;
+  (*right_child).height = max(height((*right_child).right),(*node).height) + 1;
+  node = right_child;
 }
 
-void rotate_with_left_child(NODE * node){
-  NODE * left_of_node = (*node).left;
-  (*node).left = (*left_of_node).right;
-  (*left_of_node).right = node;
+void rotate_with_left_child(NODE * node ){
+  NODE * left_child = (*node).left;
+  (*node).left = (*left_child).right;
+  (*left_child).right = node;
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
-  (*left_of_node).height = max(height((*left_of_node).left),(*node).height) + 1;
-  node = left_of_node;
+  (*left_child).height = max(height((*left_child).left),(*node).height) + 1;
+  node = left_child;
 }
 
 void double_with_left_child(NODE * node){
@@ -78,29 +78,34 @@ void double_with_right_child(NODE * node){
 
 void balance(NODE * node){
   
-  if(node == NULL){
+  if(node == NULL){    
     return;
   }
 
   if(height((*node).left) - height((*node).right) > IMBALANCE){
-      if(height((*(*node).left).left) >= height((*(*node).left).right)){
+      if(height((*(*node).left).left) >= height((*(*node).left).right)){    
+        printf("tentou rodar o %d com esquerdinha", (*node).val);    
         rotate_with_left_child(node);
       }
-      else{
+      else{        
+        printf("tentou rodar o %d double com esquerdinha", (*node).val);
         double_with_left_child(node);
       }
   }
 
   else if (height((*node).right) - height((*node).left) > IMBALANCE){
         if( height((*(*node).right).right) >= height((*(*node).right).left)){
+          printf("tentou rodar o %d com direitinha", (*node).val);
           rotate_with_right_child(node);
         }
         else{
+          printf("tentou rodar o %d double com direitinha", (*node).val);
           double_with_right_child(node);
         }
   }
 
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
+  printf("\nh%d\n", (*node).height);
 
 }
 
@@ -108,7 +113,7 @@ void balance(NODE * node){
 NODE * find_min(NODE * node){
   if(node == NULL){
     return node;
-  }
+  } 
   if((*node).left == NULL){
     return node;
   }
@@ -121,38 +126,37 @@ NODE * find_max(NODE * node){
 
 void insert(int value, NODE * node){
   NODE * tmp = node;
-
-	if(tmp == NULL){
-		head = create(value); 
-		return;
-	}
   
-  if(value > (*tmp).val){
+	if(tmp == NULL){
+		tmp = head = create(value); 
+	}  
+  else if(value > (*tmp).val){
 		if((*tmp).right == NULL){
-			(*tmp).right = create(value);
-			return;
-		}
-		insert(value, (*tmp).right);
+			(*tmp).right = create(value);			
+		}else{
+		  insert(value, (*tmp).right);
+    }
 	}else {
 		if((*tmp).left == NULL){
-			(*tmp).left = create(value);
-			return;
+			(*tmp).left = create(value);			
 		}
-		insert(value, (*tmp).left);
+    else{
+		  insert(value, (*tmp).left);
+    }
 	}
 
-  balance(node);
+  balance(tmp);
 
 }
 
-void in_print(NODE * node){
+void post_print(NODE * node){
 	NODE * tmp = node;
 	if((*tmp).left != NULL){
-		in_print((*tmp).left);
+		post_print((*tmp).left);
 	}
-	printf("%d -> ", (*tmp).val);
+	printf("[%d,%d]", (*tmp).val, (*tmp).height);
 	if((*tmp).right != NULL){
-		in_print((*tmp).right);
+		post_print((*tmp).right);
 	}
 } 
 
@@ -161,13 +165,14 @@ int main(){
 	  
 	int i;
 	int val;
+  int n = 3;
 
-	for(i = 0; i < 15; i++ ){
-		scanf("%d", &val);
+	for(i = 0; i < n; i++ ){
+		scanf("%d", &val);    
 		insert(val, head);
+    post_print (head); ln 
 	}
-
-	in_print(head); ln
+	
   
 	
 	return 0;
@@ -177,6 +182,8 @@ int main(){
 //input: 
 /* 
  25 15 50 10 22 35 70 4 12 18 24 31 44 66 90  
-  15 4 20 17 19
+  15 4 20 17 19\
+avl:
+  4 2 6 1 3 5 7 16 15
 */
 
