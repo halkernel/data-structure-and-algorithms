@@ -46,12 +46,33 @@ NODE * create(int value){
 }
 
 
+void post_print(NODE * node){
+	NODE * tmp = node;
+	if((*tmp).left != NULL){
+		post_print((*tmp).left);
+	}
+	printf("[%d,%d]", (*tmp).val, (*tmp).height);
+	if((*tmp).right != NULL){
+		post_print((*tmp).right);
+	}
+} 
+
+void print_node(NODE * node){
+  if(node != NULL){
+    printf("val: %d", (*node).val);
+    printf(" rig: %d", (*node).right == NULL ? -1 : (*(*node).right).val);
+    printf(" left: %d\n", (*node).left == NULL ? -1 : (*(*node).left).val);
+    return;
+  }
+  printf("- NULL -");
+}
+
 void rotate_with_right_child(NODE * node){
   NODE * right_child = (*node).right;
   (*node).right = (*right_child).left;
-  (*right_child).left = node;
+  (*right_child).left = node;  
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
-  (*right_child).height = max(height((*right_child).right),(*node).height) + 1;
+  (*right_child).height = max(height((*right_child).right),(*node).height) + 1;  
   node = right_child;
 }
 
@@ -84,28 +105,28 @@ void balance(NODE * node){
 
   if(height((*node).left) - height((*node).right) > IMBALANCE){
       if(height((*(*node).left).left) >= height((*(*node).left).right)){    
-        printf("tentou rodar o %d com esquerdinha", (*node).val);    
+        printf("\ntentou rodar o %d com esquerdinha\n", (*node).val);    
         rotate_with_left_child(node);
       }
       else{        
-        printf("tentou rodar o %d double com esquerdinha", (*node).val);
+        printf("\ntentou rodar o %d double com esquerdinha\n", (*node).val);
         double_with_left_child(node);
       }
   }
 
-  else if (height((*node).right) - height((*node).left) > IMBALANCE){
-        if( height((*(*node).right).right) >= height((*(*node).right).left)){
-          printf("tentou rodar o %d com direitinha", (*node).val);
+  else if(height((*node).right) - height((*node).left) > IMBALANCE){
+        if(height((*(*node).right).right) >= height((*(*node).right).left)){
+          printf("\ntentou rodar o %d com direitinha\n", (*node).val);
           rotate_with_right_child(node);
         }
         else{
-          printf("tentou rodar o %d double com direitinha", (*node).val);
+          printf("\ntentou rodar o %d double com direitinha\n", (*node).val);
           double_with_right_child(node);
         }
   }
 
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
-  printf("\nh%d\n", (*node).height);
+  printf("\nh: %d", (*node).height);
 
 }
 
@@ -124,41 +145,30 @@ NODE * find_max(NODE * node){
   //TODO find the largest element
 }
 
-void insert(int value, NODE * node){
-  NODE * tmp = node;
+void insert(int value, NODE * node){  
   
-	if(tmp == NULL){
-		tmp = head = create(value); 
+	if(node == NULL){
+		node = head = create(value); 
 	}  
-  else if(value > (*tmp).val){
-		if((*tmp).right == NULL){
-			(*tmp).right = create(value);			
+  else if(value > (*node).val){
+		if((*node).right == NULL){
+			(*node).right = create(value);			
 		}else{
-		  insert(value, (*tmp).right);
+		  insert(value, (*node).right);
     }
 	}else {
-		if((*tmp).left == NULL){
-			(*tmp).left = create(value);			
+		if((*node).left == NULL){
+			(*node).left = create(value);			
 		}
     else{
-		  insert(value, (*tmp).left);
+		  insert(value, (*node).left);
     }
 	}
 
-  balance(tmp);
+  balance(node);
 
 }
 
-void post_print(NODE * node){
-	NODE * tmp = node;
-	if((*tmp).left != NULL){
-		post_print((*tmp).left);
-	}
-	printf("[%d,%d]", (*tmp).val, (*tmp).height);
-	if((*tmp).right != NULL){
-		post_print((*tmp).right);
-	}
-} 
 
 
 int main(){
@@ -169,8 +179,9 @@ int main(){
 
 	for(i = 0; i < n; i++ ){
 		scanf("%d", &val);    
+    //TODO the reference to the node after rotation is being lost
 		insert(val, head);
-    post_print (head); ln 
+    //post_print (head); ln 
 	}
 	
   
