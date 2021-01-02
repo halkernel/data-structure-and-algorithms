@@ -67,66 +67,83 @@ void print_node(NODE * node){
   printf("- NULL -");
 }
 
-void rotate_with_right_child(NODE * node){
-  NODE * right_child = (*node).right;
+
+
+                              //50          70
+void rotate_with_right_child(NODE * node, NODE * parent){
+  NODE * right_child = (*node).right; // 60
   (*node).right = (*right_child).left;
   (*right_child).left = node;  
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
   (*right_child).height = max(height((*right_child).right),(*node).height) + 1;  
-  node = right_child;
+  if(parent == NULL){
+    head = right_child;
+  }else if((*(*parent).right).val == (*node).val) {
+    (*parent).right = right_child;
+  }  
+  else{
+    (*parent).left = right_child;
+  }
 }
 
-void rotate_with_left_child(NODE * node ){
-  NODE * left_child = (*node).left;
+                            //80         70
+void rotate_with_left_child(NODE * node, NODE * parent){
+  NODE * left_child = (*node).left; //72
   (*node).left = (*left_child).right;
   (*left_child).right = node;
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
   (*left_child).height = max(height((*left_child).left),(*node).height) + 1;
-  node = left_child;
+  if(parent == NULL){
+    head = left_child;
+  }else if((*(*parent).right).val == (*node).val) {
+    (*parent).right = left_child;
+  }  
+  else{
+    (*parent).left = left_child;
+  } 
 }
 
-void double_with_left_child(NODE * node){
-  rotate_with_right_child((*node).left);
-  rotate_with_left_child(node);
+void double_with_left_child(NODE * node, NODE * parent){
+  rotate_with_right_child((*node).left, node);  
+  rotate_with_left_child(node, parent);
 }
 
-void double_with_right_child(NODE * node){
-  rotate_with_left_child((*node).right);
-  rotate_with_right_child(node);
+void double_with_right_child(NODE * node, NODE * parent){  
+  rotate_with_left_child((*node).right, node);      
+  rotate_with_right_child(node, parent);  
 }
 
 
 
-void balance(NODE * node){
+void balance(NODE * node, NODE * parent){
   
   if(node == NULL){    
     return;
-  }
+  }  
 
   if(height((*node).left) - height((*node).right) > IMBALANCE){
-      if(height((*(*node).left).left) >= height((*(*node).left).right)){    
-        printf("\ntentou rodar o %d com esquerdinha\n", (*node).val);    
-        rotate_with_left_child(node);
+      if(height((*(*node).left).left) >= height((*(*node).left).right)){  
+        printf("lr\n");
+        rotate_with_left_child(node, parent);
       }
       else{        
-        printf("\ntentou rodar o %d double com esquerdinha\n", (*node).val);
-        double_with_left_child(node);
+        printf("dlr\n");        
+        double_with_left_child(node, parent);
       }
   }
 
   else if(height((*node).right) - height((*node).left) > IMBALANCE){
         if(height((*(*node).right).right) >= height((*(*node).right).left)){
-          printf("\ntentou rodar o %d com direitinha\n", (*node).val);
-          rotate_with_right_child(node);
+          printf("rr\n");
+          rotate_with_right_child(node, parent);
         }
         else{
-          printf("\ntentou rodar o %d double com direitinha\n", (*node).val);
-          double_with_right_child(node);
+          printf("drr %d\n", (*node).val);          
+          double_with_right_child(node, parent);
         }
   }
 
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
-  printf("\nh: %d", (*node).height);
 
 }
 
@@ -145,7 +162,7 @@ NODE * find_max(NODE * node){
   //TODO find the largest element
 }
 
-void insert(int value, NODE * node){  
+void insert(int value, NODE * node, NODE * parent){  
   
 	if(node == NULL){
 		node = head = create(value); 
@@ -154,18 +171,18 @@ void insert(int value, NODE * node){
 		if((*node).right == NULL){
 			(*node).right = create(value);			
 		}else{
-		  insert(value, (*node).right);
+		  insert(value, (*node).right, node);
     }
 	}else {
 		if((*node).left == NULL){
 			(*node).left = create(value);			
 		}
     else{
-		  insert(value, (*node).left);
+		  insert(value, (*node).left, node);
     }
 	}
 
-  balance(node);
+  balance(node, parent);
 
 }
 
@@ -175,15 +192,15 @@ int main(){
 	  
 	int i;
 	int val;
-  int n = 3;
+  int n = 6;
 
 	for(i = 0; i < n; i++ ){
 		scanf("%d", &val);    
     //TODO the reference to the node after rotation is being lost
-		insert(val, head);
-    //post_print (head); ln 
+		insert(val, head, NULL);
+    post_print (head); ln 
 	}
-	
+	//post_print (head); ln 
   
 	
 	return 0;
@@ -192,9 +209,14 @@ int main(){
 
 //input: 
 /* 
- 25 15 50 10 22 35 70 4 12 18 24 31 44 66 90  
-  15 4 20 17 19\
-avl:
-  4 2 6 1 3 5 7 16 15
+rotation:
+  n = 3
+  1 2 3
+  3 2 1
+double rotation
+  n = 6
+  70 50 80 60 20 55
+  70 50 80 72 90 75
+  refference: https://www.oreilly.com/library/view/learning-javascript-data/9781788623872/08bd6916-3d47-4c85-86da-fc49ca07ddcc.xhtml
 */
 
