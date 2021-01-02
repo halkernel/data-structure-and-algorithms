@@ -68,10 +68,8 @@ void print_node(NODE * node){
 }
 
 
-
-                              //50          70
 void rotate_with_right_child(NODE * node, NODE * parent){
-  NODE * right_child = (*node).right; // 60
+  NODE * right_child = (*node).right; 
   (*node).right = (*right_child).left;
   (*right_child).left = node;  
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
@@ -86,9 +84,9 @@ void rotate_with_right_child(NODE * node, NODE * parent){
   }
 }
 
-                            //80         70
+
 void rotate_with_left_child(NODE * node, NODE * parent){
-  NODE * left_child = (*node).left; //72
+  NODE * left_child = (*node).left; 
   (*node).left = (*left_child).right;
   (*left_child).right = node;
   (*node).height = max(height((*node).left), height((*node).right)) + 1;
@@ -196,12 +194,9 @@ int main(){
 
 	for(i = 0; i < n; i++ ){
 		scanf("%d", &val);    
-    //TODO the reference to the node after rotation is being lost
 		insert(val, head, NULL);
     post_print (head); ln 
 	}
-	//post_print (head); ln 
-  
 	
 	return 0;
 }
