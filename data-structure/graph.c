@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 #define ln printf("\n");
 #define psize 15
@@ -65,6 +66,13 @@ void print_graph(GRAPH * graph){
   }
 }
 
+void dijkstra(GRAPH * graph){
+  int i;
+  for(i = 0; i < (*graph).vertexCount; i++){
+    //INT_MIN
+  }
+}
+
 
 int main(){	  
 
@@ -81,3 +89,4 @@ int main(){
 
 	return 0;
 }
+
