@@ -2,17 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include "priority-queue.h"
 
 #define ln printf("\n");
 #define psize 15
 
 
-
-typedef struct node{
-  int vertex;
-  int weight;
-  struct node * next;  
-}NODE;
 
 typedef struct graph{
   int vertexCount;  

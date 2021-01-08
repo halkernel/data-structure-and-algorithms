@@ -1,5 +1,7 @@
 #include <stdio.h> 
 #include <stdlib.h> 
+
+#define ln printf("\n");
   
 typedef struct node { 
     int value; 
@@ -12,7 +14,15 @@ typedef struct node {
     struct node * next; 
 }NODE; 
 
-NODE * head = NULL;
+NODE * queue = NULL;  
+NODE * rear = NULL;
+
+int isEmpty(){
+    if(queue == NULL){
+        return 1;
+    }    
+    return 0;
+}
 
 
 NODE * create(int value, int priority){
@@ -23,26 +33,28 @@ NODE * create(int value, int priority){
   return tmp;
 }
 
-int p_head(){
-  return (*head).value;
+int firstEl(){
+    printf("Top -> %d", (*rear).value);
+    return (*rear).value;
 }
 
 void enqueue(int value, int priority){    
-    if(head == NULL){        
-        head = create(value, priority);     
-        return;       
+    if(isEmpty()){
+        queue = create(value, priority);
+        rear = queue;
+        return;
     }
 
-    if((*head).priority > priority){
+    if((*rear).priority > priority){
       NODE * tmp = create(value, priority);
-      (*tmp).next = head;
-      head = tmp;
+      (*rear).next = tmp;
+      rear = tmp;
     }
     else{
-      NODE * tmp = head;
+      NODE * tmp = queue;
       NODE * prev = tmp;
       while(tmp != NULL){        
-        if((*tmp).priority > priority){
+        if((*tmp).priority < priority){
           NODE * tmp2 = create(value, priority);
           (*prev).next = tmp2;
           (*tmp2).next = tmp;
@@ -55,38 +67,63 @@ void enqueue(int value, int priority){
     }
 }
 
-NODE * dequeue(NODE * head){
-  NODE * tmp = head;
-  head = (*head).next;
-  (*tmp).next = NULL;
-  return tmp;
-}
 
-
-void show_list(){
-    NODE * tmp = head;
-    while(tmp != NULL){        
-        printf("%d -> ", (*tmp).value);
+NODE * dequeue(){
+    if(isEmpty()){
+        printf("The stack is Empty");
+        return NULL;
+    }
+    
+    NODE * tmp = queue;
+    
+    if((*rear).value == (*queue).value){        
+        queue = NULL;
+        rear = NULL;
+        return tmp;
+    }
+        
+    NODE * prev = tmp = queue;
+    while((*tmp).value != (*rear).value){
+        prev = tmp;
         tmp = (*tmp).next;
     }
-    printf("\n");
+    
+    rear = prev;  
+    (*prev).next = NULL;
+    return tmp;
 }
 
+
+void show_queue(){
+    
+    NODE * tmp = queue;
+    printf("queue -> ");
+    
+    while(tmp != NULL){
+        printf("[v:%d,p:%d] ", (*tmp).value, (*tmp).priority);        
+        tmp = (*tmp).next;        
+    }
+    
+    printf(" <- rear\n");
+    
+}
 
 int main(){
 
-    enqueue(5, 4);
-    enqueue(8, 3);
+    enqueue(5, 9);
+    show_queue();
+    enqueue(8, 6);    
+    show_queue();
+    enqueue(12, 8);
+    show_queue();
+    dequeue();
+    show_queue();
+    dequeue();
+    show_queue();
     enqueue(2, 2);
     enqueue(7, 1);
- 
-    show_list();
-
-    dequeue(head);
-
-    show_list();
-
-
+    show_queue();
+   
 
     return 0; 
 } 
