@@ -61,14 +61,6 @@ void print_graph(GRAPH * graph){
   }
 }
 
-void dijkstra(GRAPH * graph){
-  int i;
-  for(i = 0; i < (*graph).vertexCount; i++){
-    //INT_MIN
-  }
-}
-
-
 int main(){	  
 
 	GRAPH * graph = create_graph(3);
