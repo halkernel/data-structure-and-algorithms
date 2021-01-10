@@ -49,7 +49,7 @@ void enqueue(NODE * node, int priority){
         return;
     }
 
-    if((*rear).priority > priority){
+    if((*rear).priority >= priority){
       PRIORITY_QUEUE_NODE * tmp = create(node, priority);
       (*rear).next = tmp;
       rear = tmp;
@@ -58,7 +58,7 @@ void enqueue(NODE * node, int priority){
       PRIORITY_QUEUE_NODE * tmp = queue;
       PRIORITY_QUEUE_NODE * prev = tmp;
       while(tmp != NULL){        
-        if((*tmp).priority < priority){
+        if((*tmp).priority <= priority){
           PRIORITY_QUEUE_NODE * tmp2 = create(node, priority);
           (*prev).next = tmp2;
           (*tmp2).next = tmp;
