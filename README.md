@@ -8,9 +8,13 @@ Data structures and algorithms are required for being an great programmer. Besid
 * depth-first-search
 * breadth-first-search
 * a* (using both hamming and manhattan as heuristic)
+* 1d arr divide and conquer searching
+* 1d arr straight forward searching
+* 2d arr straight forward searching
+* dijkstra
 
 #### Sorting
-* bouble
+* bubble
 * insertion
 * selection
 
@@ -19,5 +23,8 @@ Data structures and algorithms are required for being an great programmer. Besid
 * stack
 * queue
 * binary-search-tree
+* avl-tree
+* priority-queue (with linked-list)
+* graph
 
 
