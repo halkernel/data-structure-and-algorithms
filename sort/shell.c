@@ -3,12 +3,6 @@
 
 
 
-void swap(int *a, int *b){
-  int tmp = *a;
-  *a = *b;
-  *b = tmp;
-}
-
 
 void print_arr(int * arr, int size){
 	int i;
@@ -19,21 +13,6 @@ void print_arr(int * arr, int size){
 }
 
 
-int partition(int * arr, int beg, int end){
-    int pivot = arr[end];
-    int j, i = beg - 1;    
-
-
-    for(j = beg; j < end; j++){
-      if(arr[j] <= pivot){
-        i++;
-        swap(&arr[i], &arr[j]);
-      }
-    }
-    swap(&arr[i+1], &arr[end]);
-    return i + 1;    
-		
-}
 
 void shell_sort(int * arr, int beg, int end){	
 	int i, j, k;
