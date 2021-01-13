@@ -34,7 +34,6 @@ void heapfy(int * arr, int beg, int end){
 }
 
 
-
 void heap_sort(int * arr, int size){	
 	int i;
   for(i = size/2 - 1; i >= 0; i --){	
