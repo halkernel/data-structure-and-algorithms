@@ -17,6 +17,10 @@ Data structures and algorithms are required for being an great programmer. Besid
 * bubble
 * insertion
 * selection
+* shell
+* quick
+* merge
+* heap
 
 #### Data Structure
 * linked-list
@@ -26,5 +30,6 @@ Data structures and algorithms are required for being an great programmer. Besid
 * avl-tree
 * priority-queue (with linked-list)
 * graph
+* hashtable
 
 
