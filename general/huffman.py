@@ -80,7 +80,6 @@ encoded_text = ''.join([encoded_tree.get(c, '') for c in text])
 
 
 
-print(encoded_tree, 
-      "".join(encoded_tree.values()),
+print(encoded_tree,       
       encoded_text)
 
