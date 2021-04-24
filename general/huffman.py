@@ -63,7 +63,8 @@ while len(nodes) > 1:
     (r_key, fr) = nodes[-2]
     nodes = nodes[:-2]
     node = TreeNode(l_key, r_key) #the chars actually
-    nodes.append((node, fl + fr)) #the frequency of each one
+    print(node)
+    nodes.append((node, fl + fr)) #the frequency of each one    
 
     nodes = sorted(nodes, 
                     key=lambda x: x[1], 
@@ -78,8 +79,7 @@ for (char, freq) in frequency:
 
 encoded_text = ''.join([encoded_tree.get(c, '') for c in text])
 
+print(nodes[0][0])
 
-
-print(encoded_tree,       
-      encoded_text)
+print(encoded_text)
 
