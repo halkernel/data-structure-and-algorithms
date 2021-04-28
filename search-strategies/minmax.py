@@ -1,4 +1,5 @@
 from board_node import Node
+from copy import deepcopy
 
 board = [['X','',''],
          ['','',''],
@@ -17,26 +18,28 @@ computer = 'computer'
 player = 'player'
 current = Node(board, pos, None)
 to_visit = list()
-to_visit.append(current)
 deepness = 3 
 
 
 
-def expand(deepness, node, piece):
-    node = to_visit.pop(0)
-    for row in node.state:
-        for col in row:            
-            #if (row[col] == ''):
-                #row[col] = piece
-                #to_visit.append(Node(node.state, pos, None)
-                #col = ''
-    #print(to_visit)
+def expand(deepness, board, r, c, piece):
+    if(deepness == 0):
+        return
+    for i in range(len(board)):
+        for j in range(len(board)):
+            if(board[i][j] == ''):
+                board[i][j] = piece    
+                to_visit.append(deepcopy(board))
+                board[i][j] = ''
+
 
 
 def min_max(node, depth, maximizing):
     pass
     
-expand(3, current, 'O')
+expand(3, board, 0, 0, 'O')
+print()
+print(to_visit)
 
 
 
