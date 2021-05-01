@@ -84,8 +84,8 @@ def play(turn, finished=False):
 #play(who_goes_first)
 
 
-current.positions()
+#current.positions()
 current.reveal()
 #current.mark(2, 'X')
-print (current.evaluate())
+print (current.evaluate('O'))
 

@@ -6,14 +6,16 @@ class Node:
         self.pos = pos
         self.parent = parent
 
-    
     def reveal(self):
         for r in self.state:
             for c in r:
                 print(' |' if c == '' else (c + '|'), end="")
             print()
         print()
-            
+        
+    def not_piece(self, piece):
+        return 'X' if piece == 'O' else 'O'
+        
     def mark(self, position, piece):
         pair = self.index_of(position)
         print(pair)
@@ -36,33 +38,22 @@ class Node:
                     return a,b
                 return None
             
-    def evaluate(self):
+    def evaluate(self, piece):
+        if all(all('' == i for i in items) for items in self.state):
+            return 0
+        
         a = 0
         b = 0
-        #f(x) = a - b where a is the number of positions where
-        #a piece can be put, and b the number of possible wins
-        #in a row, diagonal or column
-        for r in self.state:            
-            for c in r:                
-                if c == '':
-                    a += 1        
-                    
-        for r in self.state:
-            if len(set(r)) > 1:                
-                b+=1            
-                
-        # tuple unpacking https://www.w3schools.com/python/python_tuples_unpack.asp
-        for c in zip(*self.state):
-            if len(set(c)) > 1:
-                b+=1
-
-                
-        if not (self.state[0][0] == self.state[1][1] == self.state[2][2]):
-            b+=1
-        if not (self.state[0][2] == self.state[1][1] == self.state[2][0]):
-            b+=1
-            
-        print(a,b)
+        
+        d1 = [self.state[0][0], self.state[1][1], self.state[2][2]]
+        d2 = [self.state[0][2], self.state[1][1], self.state[2][0]]
+        
+        #so far we are good with this function
+        
+        #f(x) = a - b where a is the number of rows/cols/diag where
+        #a piece can be put, and b the number of open positions to
+        #the opponent for the same 3 positions
+        
         return a - b
             
     def isFinished():
