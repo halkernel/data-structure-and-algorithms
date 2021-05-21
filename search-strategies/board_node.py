@@ -53,6 +53,8 @@ class Node:
         #f(x) = a - b where a is the number of rows/cols/diag where
         #a piece can be put, and b the number of open positions to
         #the opponent for the same 3 positions
+                
+        
         
         return a - b
             

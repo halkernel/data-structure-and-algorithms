@@ -1,7 +1,7 @@
 from board_node import Node
 from copy import deepcopy
 
-board = [['X','O',''],
+board = [['X','',''],
          ['','',''],
          ['','','']]
 
@@ -22,20 +22,6 @@ deepness = 3
 
 
 
-def expand(deepness, board, piece):
-    if(deepness == 0):
-        return
-    for i in range(len(board)):
-        for j in range(len(board)):
-            if(board[i][j] == ''):
-                board[i][j] = piece    
-                to_visit.append(deepcopy(board))
-                board[i][j] = ''
-    for i in range(len(to_visit)):        
-        expand(deepness-1, to_visit[0], pieces[computer] if piece == pieces[player] else pieces[player])
-    print(to_visit)
-    print()
-        
 
 def min_max(node, depth, maximizing):
     pass
@@ -83,9 +69,20 @@ def play(turn, finished=False):
 
 #play(who_goes_first)
 
+def expand(board, piece):
+    for i in range(len(board)):
+        for j in range(len(board)):
+            if(board[i][j] == ''):
+                board[i][j] = piece    
+                to_visit.append(deepcopy(board))
+                board[i][j] = ''
+    print(to_visit)
+    print()
+        
+
 
 #current.positions()
 current.reveal()
 #current.mark(2, 'X')
-print (current.evaluate('O'))
+expand(board, 'O')
 
